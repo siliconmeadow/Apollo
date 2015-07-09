@@ -91,3 +91,5 @@
     name: marathon
     image: "{{ marathon_image }}"
     state: stopped
+
+- include: jobs.yml

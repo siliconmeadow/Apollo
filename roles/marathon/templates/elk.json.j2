@@ -1,0 +1,109 @@
+{
+    "id": "elk",
+    "cpus": 1.8,
+    "mem": 1152.0,
+    "apps": [ {
+        "id": "/elk/elasticsearch",
+        "container": {
+          "type": "DOCKER",
+          "docker": {
+            "image": "{{ elasticsearch_image }}",
+            "network": "BRIDGE",
+            "portMappings": [ {
+                "containerPort": 9200,
+                "hostPort": 0,
+                "protocol": "tcp"
+              },
+              {
+                "containerPort": 9300,
+                "hostPort": 0,
+                "protocol": "tcp"
+              }
+            ]
+          },
+          "volumes": [ {
+              "containerPath": "/var/lib/elasticsearch/",
+              "hostPath": "/var/lib/elasticsearch/",
+              "mode": "RW"                  
+            }
+          ]
+        },
+        "env": {
+          "SERVICE_NAME": "elk-elasticsearch",
+          "SERVICE_TAGS": "elk"
+        },
+        "cpus": 0.5,
+        "mem": 512.0,
+        "instances": 1,
+        "uris": [
+          "file:///etc/.dockercfg"
+        ]
+      },
+      {
+        "id": "/elk/logstash",
+        "dependencies": ["/elk/elasticsearch"],
+        "container": {
+          "type": "DOCKER",
+          "docker": {
+            "image": "{{ logstash_image }}",
+            "network": "BRIDGE",
+            "portMappings": [ {
+                "containerPort": 5000,
+                "hostPort": 0,
+                 "protocol": "tcp"
+              },
+              {
+                "containerPort": 5000,
+                "hostPort": 0,
+                 "protocol": "udp"
+              }
+            ]
+          },
+          "volumes": [ {
+              "containerPath": "/etc/logstash.d",
+              "hostPath": "/etc/logstash.d",
+              "mode": "RW"                  
+            }
+          ]
+        },
+        "env": {
+            "SERVICE_NAME": "elk-logstash",
+            "SERVICE_TAGS": "elk"
+        },
+        "args": ["LOGSPOUT=ignore"],
+        "cpus": 1,
+        "mem": 512.0,
+        "instances": 1,
+        "uris": [
+            "file:///etc/.dockercfg"
+        ]
+      },
+      {
+        "id": "/elk/kibana",
+        "dependencies": ["/elk/elasticsearch", "/elk/logstash"],
+        "container": {
+          "type": "DOCKER",
+          "docker": {
+            "image": "{{ kibana_image }}",
+            "network": "BRIDGE",
+            "portMappings": [ {
+                "containerPort": 5601,
+                "hostPort": 0,
+                 "protocol": "tcp"
+              }
+            ]
+          } 
+        },
+        "env": {
+            "SERVICE_NAME": "elk-kibana",
+            "SERVICE_TAGS": "elk"
+        },
+        "cpus": 0.3,
+        "mem": 128.0,
+        "instances": 1,
+        "uris": [
+            "file:///etc/.dockercfg"
+        ]
+      }
+    ]
+}

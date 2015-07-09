@@ -1,0 +1,16 @@
+---
+# defaults file for logspout
+logspout_enabled: true
+logspout_version: 'latest'
+logspout_image: "gliderlabs/logspout:{{ logspout_version }}"
+logspout_restart_policy: 'always'
+logspout_net: 'bridge'
+logspout_hostname: "{{ ansible_ssh_host }}"
+logspout_consul_dir: /etc/consul.d
+logspout_host_port: 8000
+
+# Stdout
+logstash_output_stdout: no
+
+# Log4j
+logstash_log4j_port: 56445

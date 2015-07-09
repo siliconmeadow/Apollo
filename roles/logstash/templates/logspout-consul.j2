@@ -1,0 +1,11 @@
+{
+  "service": {
+    "name": "logspout",
+    "tags": [ "logspout" ],
+    "port": {{ logspout_host_port }},
+    "check": {
+      "script": "curl --silent --show-error  --fail --dump-header /dev/stderr --retry 2 http://{{ logspout_hostname }}:{{ logspout_host_port }}",
+      "interval": "10s"
+    }
+  }
+}

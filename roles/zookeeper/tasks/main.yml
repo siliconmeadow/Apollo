@@ -17,6 +17,26 @@
   tags:
     - zookeeper
 
+- name: Create zookeeper logging config
+  template:
+    src: log4j.properties.j2
+    dest: /etc/zookeeper/conf/log4j.properties
+  sudo: yes
+  notify:
+    - restart zookeeper
+  tags:
+    - zookeeper
+
+- name: Enable syslog for zookeeper
+  sudo: yes
+  lineinfile:
+    dest: /etc/zookeeper/conf/environment
+    state: present
+    regexp: ^ZOO_LOG4J_PROP=
+    line: 'ZOO_LOG4J_PROP=\"INFO,LOGSTASH,ROLLINGFILE\"'
+  notify:
+    - restart docker
+
 - name: Create zookeeper myid file
   copy:
     content: "{{ zookeeper_id }}"

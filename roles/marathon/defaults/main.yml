@@ -30,3 +30,9 @@ marathon_peers_nodes: "
 marathon_master_peers: "{%- set master_peers = marathon_peers_nodes + '/mesos' -%} {{ master_peers }}"
 marathon_zk_peers: "{%- set master_peers = marathon_peers_nodes + '/marathon' -%} {{ master_peers }}"
 marathon_command: "--artifact_store {{ marathon_artifact_store }} --hostname {{ marathon_hostname }} --master {{ marathon_master_peers }} --zk {{ marathon_zk_peers }}"
+logstash_image: 'library/logstash'
+logstash_tag: 1.5.1
+elasticsearch_image: 'library/elasticsearch'
+elasticsearch_tag: 1.6.0
+kibana_image: 'library/kibana'
+kibana_tag: 4.1.0

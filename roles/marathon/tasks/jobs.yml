@@ -1,0 +1,20 @@
+---
+- name: create json files for jobs
+  sudo: yes
+  template:
+    src: '{{ item }}.json.j2'
+    dest: /etc/marathon/{{ item }}.json
+  with_items:
+    - elk
+  tags:
+    - marathon
+
+- name: start groups
+  run_once: true
+  sudo: yes
+  command: 'curl -X PUT -d@/etc/marathon/{{ item }}.json -H "Content-Type: application/json" http://localhost:{{ marathon_port }}/v2/groups/{{ item }}'
+  changed_when: false
+  with_items:
+    - elk
+  tags:
+    - marathon

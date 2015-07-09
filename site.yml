@@ -24,6 +24,7 @@
     - weave
     - registrator
     - cadvisor
+    - logstash
 
 - hosts: mesos_masters
   roles:

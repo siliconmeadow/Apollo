@@ -151,6 +151,26 @@
     - restart mesos slave
   when: mesos_install_mode == "slave"
 
+- name: Set Mesos Master syslog
+  sudo: yes
+  lineinfile:
+    dest: /etc/default/mesos-master
+    state: present
+    line: 'USE_SYSLOG=\"{{ mesos_syslog }}\"'
+  notify:
+    - restart mesos master
+  when: mesos_install_mode == "master"
+
+- name: Set Mesos Slave syslog
+  sudo: yes
+  lineinfile:
+    dest: /etc/default/mesos-slave
+    state: present
+    line: 'USE_SYSLOG=\"{{ mesos_syslog }}\"'
+  notify:
+    - restart mesos slave
+  when: mesos_install_mode == "slave"
+
 - name: start mesos-slave (and enable it at boot)
   service:
     name: mesos-slave

@@ -52,9 +52,9 @@
         "CHRONOS_VERSION={{user `chronos_version`}}"
       ],
       "scripts": [
+        "scripts/ubuntu/kernel-upgrade.sh",
         "scripts/ubuntu/base.sh",
         "scripts/common/sshd.sh",
-        "scripts/ubuntu/kernel-upgrade.sh",
         "scripts/ubuntu/install_docker.sh",
         "scripts/ubuntu/install_mesos.sh",
         "scripts/common/install_consul.sh",
@@ -75,11 +75,11 @@
     }
   ],
   "push": {
-    "name": "capgemini/apollo"
+    "name": "wallies/apollo"
   },
   "post-processors": [{
     "type": "atlas",
-    "artifact": "capgemini/apollo-ubuntu-14.04-amd64",
+    "artifact": "wallies/apollo-ubuntu-14.04-amd64",
     "artifact_type": "aws.ami",
     "metadata": {
       "created_at": "{{timestamp}}",
